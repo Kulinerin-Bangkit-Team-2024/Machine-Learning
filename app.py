@@ -9,12 +9,9 @@ logging.basicConfig(level=logging.INFO)
 
 app = Flask(__name__)
 
-model_path = "padang_food_model.tflite"
-interpreter = tf.lite.Interpreter(model_path=model_path)
-interpreter.allocate_tensors()
-
-input_details = interpreter.get_input_details()
-output_details = interpreter.get_output_details()
+# Load the .h5 model
+model_path = "best_model.h5"
+model = tf.keras.models.load_model(model_path)
 
 food_labels = [
     "amparan_tatak", "asam_padeh", "asem_asem_daging", "ayam_geprek",
@@ -63,7 +60,7 @@ def preprocess_image(image):
     - Resize gambar sesuai ukuran input model.
     - Normalize piksel ke rentang [0, 1].
     """
-    input_shape = input_details[0]['shape'][1:3]
+    input_shape = model.input_shape[1:3]  # Ambil ukuran input dari model
     if image.size != tuple(input_shape):
         image = image.resize(input_shape)
     image = np.array(image, dtype=np.float32) / 255.0
@@ -85,11 +82,9 @@ def predict():
 
         processed_image = preprocess_image(image)
 
-        interpreter.set_tensor(input_details[0]['index'], processed_image)
-        interpreter.invoke()
-        predictions = interpreter.get_tensor(output_details[0]['index'])
-
+        predictions = model.predict(processed_image)
         confidence = float(np.max(predictions))
+
         if confidence < CONFIDENCE_THRESHOLD:
             return jsonify({'error': 'Low confidence', 'confidence': confidence}), 200
 
