@@ -10,46 +10,32 @@ logging.basicConfig(level=logging.INFO)
 app = Flask(__name__)
 
 # Load the .h5 model
-model_path = "best_model.h5"
+model_path = "foods_model.h5"
 model = tf.keras.models.load_model(model_path)
 
 food_labels = [
     "amparan_tatak", "asam_padeh", "asem_asem_daging", "ayam_geprek",
-    "ayam_goreng_tepung", "ayam_pop", "ayam_rica_rica", "ayam_taliwang",
-    "ayam_tangkap", "babi_guling", "babi_panggang_karo", "bakmi_jawa",
-    "bakpia", "bakso", "bakwan", "barongko",
-    "batagor", "bika_ambon", "bingka", "binte_biluhuta",
-    "bolu_kojo", "botok_telur_asin", "brengkes_tempoyak", "bubur_ayam",
-    "bubur_kampiun", "bubur_pedas", "bubur_sagu_ambon", "burgo",
-    "celimpungan", "cilok", "cimol", "cireng",
-    "combro", "coto_makassar", "daging_masak_hitam", "dawet",
-    "dendeng_balado", "empal_gentong", "emping", "es_puter",
-    "es_selendang_mayang", "gado_gado", "garang_asem", "gehu",
-    "gepuk", "gudeg", "gulai", "horok_horok",
-    "jadah_manten", "jagung_bose", "jaja_klepon", "jaja_wajik",
-    "jalangkote", "jemblem", "kaledo", "kalio",
-    "kalumpe", "kapurung", "karedok", "keciput",
-    "kerak_telor", "kerupuk_basah", "kerutup_ikan", "ketoprak",
-    "kolak", "kuah_pliek_u", "kue_cubit", "kue_jojorong",
-    "kue_kipo", "kue_lam", "kue_muso", "kue_nagasari",
-    "kue_putu", "kue_satu", "kue_serabi", "kwetiau_bagan",
-    "laksamana_mengamuk", "laksan", "lalampa", "lawar",
-    "lontong_kupang", "luti_gendang", "mendol", "mi_aceh",
-    "mi_gomak", "mi_kangkung", "mi_kopyok", "mi_nyemek",
-    "nasi_gandul", "nasi_goreng", "nasi_kebuli", "nasi_krawu",
-    "nasi_liwet", "nasi_timbel", "nasi_uduk", "opor_ayam",
-    "pallu_butung", "pempek", "pepes", "perkedel",
-    "pindang_serani", "pisang_ijo", "pisang_molen", "pisang_peppe", 
-    "plecing_kangkung", "pukis", "rawon", "rendang",
-    "rengginang", "roti_buaya", "roti_canai", "roti_ganjel_rel",
-    "roti_jala", "rujak", "rujak_kuah_pindang", "sate",
-    "sate_buntel", "sate_padang", "seblak", "selat_solo",
-    "semur", "semur_jengkol", "serabi_solo", "siomai",
-    "sop_konro", "soto_ayam", "soto_bandung","soto_betawi",
-    "tahu_aci", "tahu_bakso", "tahu_gejrot", "tahu_sumedang",
-    "tahu_tek", "tapai_singkong", "tekwan", "tempe_penyet",
-    "tinutuan", "tongseng", "tumpeng", "untir_untir",
-    "wedang_ronde","wingko_babat"
+    "ayam_goreng_tepung", "ayam_pop", "ayam_rica_rica", "ayam_tangkap",
+    "babi_guling", "babi_panggang_karo", "bakmi_jawa", "bakpia", 
+    "bakso", "bakwan", "barongko", "batagor", "bika_ambon", 
+    "bolu_kojo", "botok_telur_asin", "bubur_ayam", "burgo",
+    "cimol", "cireng", "combro", "coto_makassar", "daging_masak_hitam",
+    "dawet", "dendeng_balado", "es_puter", "es_selendang_mayang",
+    "gado_gado", "gudeg", "gulai", "jalangkote", "kapurung",
+    "karedok", "keciput", "kerak_telor", "kolak", "kue_cubit",
+    "kue_jojorong", "kue_kamir", "kue_kipo", "kue_klepon", 
+    "kue_nagasari", "kue_putu", "kue_satu", "kue_serabi", 
+    "kue_wajik", "kwetiau_bagan", "laksamana_mengamuk", "laksan",
+    "lalampa", "lawar", "luti_gendang", "mendol", "mi_aceh",
+    "nasi_goreng", "nasi_uduk", "opor_ayam", "pallu_butung", 
+    "pempek", "pepes", "perkedel", "pindang_serani", "pisang_ijo",
+    "pisang_molen", "pisang_peppe", "plecing_kangkung", "pukis",
+    "rawon", "rendang", "rengginang", "roti_buaya", "roti_canai",
+    "roti_ganjel_rel", "roti_jala", "rujak_kuah_pindang", "sate",
+    "sate_buntel", "sate_padang", "seblak", "selat_solo", 
+    "semur_jengkol", "sop_konro", "soto_ayam", "soto_bandung",
+    "tahu_aci", "tahu_gejrot", "tahu_sumedang", "tapai_singkong",
+    "tinutuan", "tumpeng"
 ]
 
 CONFIDENCE_THRESHOLD = 0.5
@@ -86,7 +72,7 @@ def predict():
         confidence = float(np.max(predictions))
 
         if confidence < CONFIDENCE_THRESHOLD:
-            return jsonify({'error': 'Low confidence', 'confidence': confidence}), 200
+            return jsonify({'error': 'Low confidence', 'message': 'selected image has an error', 'confidence': confidence}), 200
 
         predicted_class = np.argmax(predictions)
         predicted_food_name = food_labels[predicted_class]
