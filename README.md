@@ -24,11 +24,10 @@ To replicate or further develop the project, you will need the following librari
 1. Research machine learning models suitable for food recognition tasks.
 2. Collect and preprocess the dataset of traditional Indonesian dishes.
 3. Split the dataset into training (80%) and validation (20%) sets.
-4. Build a machine learning model using CNN with MaxPooling2D as the base architecture.
-5. Train the model with the preprocessed dataset.
-6. Evaluate the model’s performance using validation data.
-7. Test the model with unseen images to measure its real-world performance.
-8. Deploy the model using FastAPI for easy integration with web or mobile applications.
+4. Train the model with the preprocessed dataset.
+5. Evaluate the model’s performance using validation data.
+6. Test the model with unseen images to measure its real-world performance.
+7. Deploy the model using Flask for easy integration with web or mobile applications.
 
 ## Results
 The model achieved an impressive test accuracy of **99%** on the dataset. Below are the accuracy and loss graphs during training and validation:
