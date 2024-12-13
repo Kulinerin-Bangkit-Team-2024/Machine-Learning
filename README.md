@@ -1,4 +1,4 @@
-# Kulinerin - Indonesian Food Recognition
+# Kulinerin - Machine Learning
 
 ![TF](https://raw.githubusercontent.com/Kulinerin-Bangkit-Team-2024/Machine-Learning/refs/heads/main/assets/tensorflow.png)
 
